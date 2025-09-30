@@ -32,6 +32,16 @@
   }
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input {
+    font-weight: 500;
+  }
+}
+
 p,
 input {
   margin: 0;
@@ -40,4 +50,8 @@ input {
 
 input {
   cursor: pointer;
+}
+
+.stateButton {
+  margin-top: 20px;
 }
