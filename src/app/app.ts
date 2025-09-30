@@ -3,8 +3,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  template: ` <nav><a routerLink="">Home</a> | <a routerLink="/todo">Todo</a></nav>
-    <router-outlet />`,
+  template: `<div class="app">
+    <nav><a routerLink="">Home</a> | <a routerLink="/todo">Todo</a></nav>
+    <router-outlet />
+  </div>`,
   imports: [RouterOutlet, RouterLink],
   styleUrl: './app.scss',
 })

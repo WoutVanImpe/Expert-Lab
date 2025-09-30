@@ -1,0 +1,24 @@
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.todo-card {
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  background-color: rgb(198, 196, 196);
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: rgb(114, 113, 113) solid 2px;
+}
+
+p,
+input {
+  margin: 0;
+  font-weight: 800;
+}
