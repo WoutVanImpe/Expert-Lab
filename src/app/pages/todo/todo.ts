@@ -11,6 +11,7 @@ import { TodoItem } from './components/todo-item';
         [title]="todo.title"
         [done]="todo.checked"
         (completionEvent)="completeTodo($event)"
+        (deleteEvent)="deleteTodo($event)"
       />
       }
     </div>
@@ -31,5 +32,9 @@ export class TodoPage {
 
   completeTodo(event: { id: number; checked: boolean }) {
     this.todos = this.todos.map((t) => (t.id === event.id ? { ...t, checked: event.checked } : t));
+  }
+
+  deleteTodo(event: { id: number }) {
+    this.todos = this.todos.filter((t) => t.id != event.id);
   }
 }
