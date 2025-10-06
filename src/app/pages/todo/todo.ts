@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TodoItem } from './components/todo-item';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TodoService } from './components/todo.service';
 
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 @Component({
   selector: 'todopage',
   template: `<h1>Todos</h1>
@@ -11,7 +17,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
       <todoItem
         [id]="todo.id"
         [title]="todo.title"
-        [done]="todo.checked"
+        [done]="todo.completed"
         (completionEvent)="completeTodo($event)"
         (deleteEvent)="deleteTodo($event)"
       />
@@ -34,27 +40,33 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   imports: [TodoItem, ReactiveFormsModule],
   styleUrls: ['./todo.module.scss'],
 })
-export class TodoPage {
-  todos = [
-    { id: 1, title: 'afwassen', checked: false },
-    { id: 2, title: 'stofzuigen', checked: false },
-    { id: 3, title: 'koken', checked: false },
-  ];
+export class TodoPage implements OnInit {
+  private readonly todoService = inject(TodoService);
 
-  idCount = this.todos.length + 1;
-
+  todos: Todo[] = [];
+  idCount = 1;
   addingTodoState = false;
 
+  ngOnInit() {
+    this.todoService.getTodos().subscribe((data) => {
+      // Je kan bv. enkel de eerste 10 tonen
+      this.todos = data.slice(0, 10);
+      this.idCount = this.todos.length + 1;
+    });
+  }
+
   get completedCount() {
-    return this.todos.filter((t) => t.checked).length;
+    return this.todos.filter((t) => t.completed).length;
   }
 
   todoForm = new FormGroup({
     title: new FormControl('', Validators.required),
   });
 
-  completeTodo(event: { id: number; checked: boolean }) {
-    this.todos = this.todos.map((t) => (t.id === event.id ? { ...t, checked: event.checked } : t));
+  completeTodo(event: { id: number; completed: boolean }) {
+    this.todos = this.todos.map((t) =>
+      t.id === event.id ? { ...t, completed: event.completed } : t
+    );
   }
 
   deleteTodo(event: { id: number }) {
@@ -62,7 +74,7 @@ export class TodoPage {
   }
 
   handleSubmit() {
-    const newTodo = { id: this.idCount, title: this.todoForm.value.title!, checked: false };
+    const newTodo: Todo = { id: this.idCount, title: this.todoForm.value.title!, completed: false };
     this.todos.push(newTodo);
     this.idCount++;
     this.addingTodoState = false;
