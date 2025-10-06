@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { TodoItem } from './components/todo-item';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TodoService } from './components/todo.service';
+import { TodosService } from '../../services/todos.service';
 
 interface Todo {
   id: number;
@@ -41,16 +41,17 @@ interface Todo {
   styleUrls: ['./todo.module.scss'],
 })
 export class TodoPage implements OnInit {
-  private readonly todoService = inject(TodoService);
+  private readonly todoService = inject(TodosService);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   todos: Todo[] = [];
   idCount = 1;
   addingTodoState = false;
 
   ngOnInit() {
-    this.todoService.getTodos().subscribe((data) => {
+    this.todoService.TodoList().subscribe((data: any) => {
       this.todos = data.slice(0, 10);
-      this.idCount = this.todos.length + 1;
+      this.cdRef.detectChanges();
     });
   }
 
