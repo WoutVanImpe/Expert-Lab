@@ -49,7 +49,6 @@ export class TodoPage implements OnInit {
 
   ngOnInit() {
     this.todoService.getTodos().subscribe((data) => {
-      // Je kan bv. enkel de eerste 10 tonen
       this.todos = data.slice(0, 10);
       this.idCount = this.todos.length + 1;
     });
