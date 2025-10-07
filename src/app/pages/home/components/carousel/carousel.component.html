@@ -1,0 +1,7 @@
+<div class="carousel-container">
+  <button (click)="previous()">{{ buttonContent[0] }}</button>
+  <carousel-item [title]="gameList()![0].title" [image]="gameList()![0].image" />
+  <carousel-item [title]="gameList()![1].title" [image]="gameList()![1].image" />
+  <carousel-item [title]="gameList()![2].title" [image]="gameList()![2].image" />
+  <button (click)="next()">{{ buttonContent[1] }}</button>
+</div>

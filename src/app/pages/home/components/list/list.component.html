@@ -1,0 +1,11 @@
+<div class="list-container">
+  @for(game of mockData(); track game.id){
+  <div class="list-item">
+    <img [src]="game.image" [alt]="game.title" />
+    <div class="text-container">
+      <h6>{{ game.title }}</h6>
+      <p>{{ game.description }}</p>
+    </div>
+  </div>
+  }
+</div>

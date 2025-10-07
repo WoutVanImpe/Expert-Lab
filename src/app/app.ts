@@ -5,7 +5,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   selector: 'app-root',
   template: `<div class="app">
     <nav><a routerLink="">Home</a> | <a routerLink="/todo">Todo</a></nav>
-    <router-outlet />
+    <div class="router-container">
+      <router-outlet />
+    </div>
   </div>`,
   imports: [RouterOutlet, RouterLink],
   styleUrl: './app.scss',
