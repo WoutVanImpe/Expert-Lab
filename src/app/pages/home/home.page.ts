@@ -55,6 +55,4 @@ export class HomePage {
       description: 'Palm trees, blue waters, and endless sunshine.',
     },
   ];
-
-  
 }

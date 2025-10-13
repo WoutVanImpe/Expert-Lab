@@ -4,7 +4,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   template: `<div class="app">
-    <nav><a routerLink="">Home</a> | <a routerLink="/todo">Todo</a></nav>
+    <nav>
+      <a routerLink="">Home</a> | <a routerLink="/todo">Todo</a> |
+      <a routerLink="/drag-and-drop">Drag & Drop</a>
+    </nav>
     <div class="router-container">
       <router-outlet />
     </div>
