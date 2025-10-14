@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ExampleContainer } from './components/example-container/example-container.component';
+import { DragGame } from './components/drag-game-container/drag-game-container.component';
 
 @Component({
   selector: 'drag-and-drop-page',
   templateUrl: './dragAndDrop.page.html',
   styleUrls: ['./dragAndDrop.page.module.scss'],
-  imports: [ExampleContainer],
+  imports: [DragGame],
 })
 export class DragAndDropPage {}

@@ -1,0 +1,35 @@
+<div class="drag-game-container">
+  <div
+    cdkDropList
+    #puzzleBox="cdkDropList"
+    [cdkDropListData]="pieces"
+    cdkDropListOrientation="mixed"
+    [cdkDropListConnectedTo]="puzzlePlayground"
+    class="puzzle-box"
+    id="puzzleBox"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for(item of pieces; track item){
+    <div class="puzzle-piece" cdkDrag>
+      <p>{{ item }}</p>
+    </div>
+    }
+  </div>
+  <div class="puzzle-playground">
+    <div
+      cdkDropList
+      #puzzlePlayground="cdkDropList"
+      cdkDropListOrientation="mixed"
+      [cdkDropListData]="field"
+      class="grid"
+      id="puzzlePlayground"
+      (cdkDropListDropped)="drop($event)"
+    >
+      @for(item of field; track item){
+      <div class="grid__item" id="{{ field }}" cdkDrag>
+        <p>{{ item }}</p>
+      </div>
+      }
+    </div>
+  </div>
+</div>
