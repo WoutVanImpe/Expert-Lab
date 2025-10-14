@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   CdkDragDrop,
   transferArrayItem,
@@ -14,6 +14,8 @@ interface Piece {
   img: string;
 }
 
+type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
+
 @Component({
   selector: 'drag-game-container',
   templateUrl: './drag-game-container.component.html',
@@ -21,6 +23,23 @@ interface Piece {
   imports: [CdkDropList, CdkDrag],
 })
 export class DragGame {
+  imgDiff = input<Difficulty>();
+  pieceDiff = input<Difficulty>();
+
+  difficulties = {
+    img: {
+      easy: ['./easy1.jpeg', './easy2.jpeg', './easy3.jpeg', './easy4.jpeg'],
+      normal: ['./normal1.jpeg', './normal2.jpeg', './normal3.jpeg', './normal4.jpeg'],
+      hard: ['./hard1.jpeg', './hard2.jpeg', './hard3.jpeg', './hard4.jpeg'],
+      extreme: ['./extreme1.jpeg', './extreme2.jpeg', './extreme3.jpeg', './extreme4.jpeg'],
+    },
+    piece: {
+      easy: [2, 3, 4],
+      normal: [4, 5, 6],
+      hard: [6, 7, 8],
+      extreme: [8, 9, 10],
+    },
+  };
   rows = 6;
   columns = 4;
   imgWidth = (this.rows + 1) * 80;
