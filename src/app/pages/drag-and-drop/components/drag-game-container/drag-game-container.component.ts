@@ -1,11 +1,18 @@
 import { Component } from '@angular/core';
 import {
   CdkDragDrop,
-  moveItemInArray,
   transferArrayItem,
   CdkDrag,
   CdkDropList,
+  moveItemInArray,
 } from '@angular/cdk/drag-drop';
+
+interface Piece {
+  item: string;
+  x: number;
+  y: number;
+  img: string;
+}
 
 @Component({
   selector: 'drag-game-container',
@@ -16,39 +23,25 @@ import {
 export class DragGame {
   rows = 6;
   columns = 4;
+  imgWidth = (this.rows + 1) * 80;
+  imgHeight = (this.columns + 1) * 80;
 
-  pieces = [
-    'A1',
-    'A2',
-    'A3',
-    'A4',
-    'A5',
-    'A6',
-    'B1',
-    'B2',
-    'B3',
-    'B4',
-    'B5',
-    'B6',
-    'C1',
-    'C2',
-    'C3',
-    'C4',
-    'C5',
-    'C6',
-    'D1',
-    'D2',
-    'D3',
-    'D4',
-    'D5',
-    'D6',
-  ];
+  pieces = this.shuffle(
+    Array.from({ length: this.rows }, (_, rowIndex) =>
+      Array.from({ length: this.columns }, (_, colIndex) => ({
+        item: `${colIndex + 1}/${rowIndex + 1}`,
+        x: (colIndex + 1) * -80,
+        y: (rowIndex + 1) * -80,
+        img: 'test.jpeg',
+      }))
+    ).flat()
+  );
 
   field = Array(this.rows * this.columns).fill(null);
 
   gridIds = this.field.map((_, i) => `slot${i}`);
 
-  gridData: Record<string, string[]> = Object.fromEntries(
+  gridData: Record<string, Piece[]> = Object.fromEntries(
     this.field.map((_, i) => [`slot${i}`, []])
   );
 
@@ -56,8 +49,12 @@ export class DragGame {
     return ['puzzleBox', ...this.gridIds];
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) return;
+  drop(event: CdkDragDrop<Piece[]>) {
+    if (event.previousContainer === event.container) {
+      if (event.previousContainer.id === 'puzzleBox') {
+        moveItemInArray(event.previousContainer.data, event.previousIndex, event.currentIndex);
+      } else return;
+    }
 
     transferArrayItem(
       event.previousContainer.data,
@@ -67,10 +64,19 @@ export class DragGame {
     );
   }
 
-  canEnter = (drag: CdkDrag<string>, drop: CdkDropList<string[]>) => {
+  canEnter = (drag: CdkDrag<Piece>, drop: CdkDropList<Piece[]>) => {
     const id = drop.id;
     const slotData = this.gridData[id];
 
     return slotData.length === 0;
   };
+
+  shuffle<T>(array: T[]): T[] {
+    const result = [...array]; // kopie
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
 }

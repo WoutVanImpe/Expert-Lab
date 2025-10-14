@@ -8,8 +8,17 @@
     class="puzzle-box"
     (cdkDropListDropped)="drop($event)"
   >
-    @for (item of pieces; track item) {
-    <div class="puzzle-piece" cdkDrag>{{ item }}</div>
+    @for (piece of pieces; track piece.item) {
+    <div class="puzzle-piece" cdkDrag>
+      <img
+        [src]="piece.img"
+        [style.left.px]="piece.y"
+        [style.top.px]="piece.x"
+        [style.width.px]="imgWidth"
+        [style.height.px]="imgHeight"
+        alt="img"
+      />
+    </div>
     }
   </div>
 
@@ -30,7 +39,16 @@
         (cdkDropListDropped)="drop($event)"
       >
         @for (piece of gridData[id]; track piece) {
-        <div class="puzzle-piece" cdkDrag>{{ piece }}</div>
+        <div class="puzzle-piece" cdkDrag>
+          <img
+            [src]="piece.img"
+            [style.left.px]="piece.y"
+            [style.top.px]="piece.x"
+            [style.width.px]="imgWidth"
+            [style.height.px]="imgHeight"
+            alt="img"
+          />
+        </div>
         }
       </div>
       }
