@@ -1,33 +1,37 @@
 <div class="drag-game-container">
   <div
     cdkDropList
-    #puzzleBox="cdkDropList"
-    [cdkDropListData]="pieces"
-    cdkDropListOrientation="mixed"
-    [cdkDropListConnectedTo]="puzzlePlayground"
-    class="puzzle-box"
     id="puzzleBox"
+    [cdkDropListData]="pieces"
+    [cdkDropListConnectedTo]="gridIds"
+    cdkDropListOrientation="mixed"
+    class="puzzle-box"
     (cdkDropListDropped)="drop($event)"
   >
-    @for(item of pieces; track item){
-    <div class="puzzle-piece" cdkDrag>
-      <p>{{ item }}</p>
-    </div>
+    @for (item of pieces; track item) {
+    <div class="puzzle-piece" cdkDrag>{{ item }}</div>
     }
   </div>
+
   <div class="puzzle-playground">
     <div
-      cdkDropList
-      #puzzlePlayground="cdkDropList"
-      cdkDropListOrientation="mixed"
-      [cdkDropListData]="field"
       class="grid"
-      id="puzzlePlayground"
-      (cdkDropListDropped)="drop($event)"
+      [style.grid-template-rows]="'repeat(' + columns + ', 80px)'"
+      [style.grid-template-columns]="'repeat(' + rows + ', 80px)'"
     >
-      @for(item of field; track item){
-      <div class="grid__item" id="{{ field }}" cdkDrag>
-        <p>{{ item }}</p>
+      @for (id of gridIds; track id) {
+      <div
+        class="grid__item"
+        [id]="id"
+        cdkDropList
+        [cdkDropListData]="gridData[id]"
+        [cdkDropListConnectedTo]="connectedLists"
+        [cdkDropListEnterPredicate]="canEnter"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (piece of gridData[id]; track piece) {
+        <div class="puzzle-piece" cdkDrag>{{ piece }}</div>
+        }
       </div>
       }
     </div>

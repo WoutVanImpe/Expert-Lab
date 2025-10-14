@@ -14,6 +14,9 @@ import {
   imports: [CdkDropList, CdkDrag],
 })
 export class DragGame {
+  rows = 6;
+  columns = 4;
+
   pieces = [
     'A1',
     'A2',
@@ -41,45 +44,33 @@ export class DragGame {
     'D6',
   ];
 
-  field: any[] = [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ];
+  field = Array(this.rows * this.columns).fill(null);
 
-  rows = 6;
-  columns = 4;
+  gridIds = this.field.map((_, i) => `slot${i}`);
+
+  gridData: Record<string, string[]> = Object.fromEntries(
+    this.field.map((_, i) => [`slot${i}`, []])
+  );
+
+  get connectedLists() {
+    return ['puzzleBox', ...this.gridIds];
+  }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else if (event.previousContainer.id === 'puzzleBox') {
-      const piece = event.previousContainer.data[event.previousIndex];
+    if (event.previousContainer === event.container) return;
 
-      this.field[event.currentIndex] = piece;
-
-      event.previousContainer.data.splice(event.previousIndex, 1);
-    }
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
+
+  canEnter = (drag: CdkDrag<string>, drop: CdkDropList<string[]>) => {
+    const id = drop.id;
+    const slotData = this.gridData[id];
+
+    return slotData.length === 0;
+  };
 }
