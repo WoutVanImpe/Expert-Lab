@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DragGame } from './components/drag-game-container/drag-game-container.component';
 
@@ -17,11 +17,14 @@ export class DragAndDropPage {
     pieces: new FormControl<Difficulty>('normal'),
   });
 
+  @ViewChild(DragGame) dragGame!: DragGame;
+
   startGame = () => {
     this.settingsState = false;
   };
 
   stopGame = () => {
     this.settingsState = true;
+    this.dragGame.resetGame();
   };
 }

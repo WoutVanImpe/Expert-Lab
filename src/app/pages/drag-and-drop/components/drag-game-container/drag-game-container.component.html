@@ -1,57 +1,68 @@
 <div class="drag-game-container">
-  <div
-    cdkDropList
-    id="puzzleBox"
-    [cdkDropListData]="pieces"
-    [cdkDropListConnectedTo]="gridIds"
-    cdkDropListOrientation="mixed"
-    class="puzzle-box"
-    (cdkDropListDropped)="drop($event)"
-  >
-    @for (piece of pieces; track piece.item) {
-    <div class="puzzle-piece" cdkDrag>
-      <img
-        [src]="piece.img"
-        [style.left.px]="piece.y"
-        [style.top.px]="piece.x"
-        [style.width.px]="imgWidth"
-        [style.height.px]="imgHeight"
-        alt="img"
-      />
-    </div>
-    }
+  <div class="drag-game-container__preview">
+    <img
+      [style.width.px]="imgWidth"
+      [style.height.px]="imgHeight"
+      [src]="randomImg"
+      alt="preview"
+    />
   </div>
 
-  <div class="puzzle-playground">
+  <div class="drag-game-container__play-field">
     <div
-      class="grid"
-      [style.grid-template-rows]="'repeat(' + columns + ', 80px)'"
-      [style.grid-template-columns]="'repeat(' + rows + ', 80px)'"
+      cdkDropList
+      id="puzzleBox"
+      [cdkDropListData]="pieces"
+      [cdkDropListConnectedTo]="gridIds"
+      cdkDropListOrientation="mixed"
+      class="puzzle-box"
+      (cdkDropListDropped)="drop($event)"
     >
-      @for (id of gridIds; track id) {
+      @for (piece of pieces; track piece.item) {
+      <div class="puzzle-piece" cdkDrag>
+        <img
+          [src]="piece.img"
+          [style.left.px]="piece.x"
+          [style.top.px]="piece.y"
+          [style.width.px]="imgWidth"
+          [style.height.px]="imgHeight"
+          alt="img"
+        />
+      </div>
+      }
+    </div>
+
+    <div class="puzzle-playground">
       <div
-        class="grid__item"
-        [id]="id"
-        cdkDropList
-        [cdkDropListData]="gridData[id]"
-        [cdkDropListConnectedTo]="connectedLists"
-        [cdkDropListEnterPredicate]="canEnter"
-        (cdkDropListDropped)="drop($event)"
+        class="grid"
+        [style.grid-template-rows]="'repeat(' + rows + ', 80px)'"
+        [style.grid-template-columns]="'repeat(' + columns + ', 80px)'"
       >
-        @for (piece of gridData[id]; track piece) {
-        <div class="puzzle-piece" cdkDrag>
-          <img
-            [src]="piece.img"
-            [style.left.px]="piece.y"
-            [style.top.px]="piece.x"
-            [style.width.px]="imgWidth"
-            [style.height.px]="imgHeight"
-            alt="img"
-          />
+        @for (id of gridIds; track id) {
+        <div
+          class="grid__item"
+          [id]="id"
+          cdkDropList
+          [cdkDropListData]="gridData[id]"
+          [cdkDropListConnectedTo]="connectedLists"
+          [cdkDropListEnterPredicate]="canEnter"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (piece of gridData[id]; track piece) {
+          <div class="puzzle-piece" cdkDrag>
+            <img
+              [src]="piece.img"
+              [style.left.px]="piece.x"
+              [style.top.px]="piece.y"
+              [style.width.px]="imgWidth"
+              [style.height.px]="imgHeight"
+              alt="img"
+            />
+          </div>
+          }
         </div>
         }
       </div>
-      }
     </div>
   </div>
 </div>

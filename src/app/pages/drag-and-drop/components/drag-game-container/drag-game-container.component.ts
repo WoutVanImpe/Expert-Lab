@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   transferArrayItem,
@@ -22,16 +22,16 @@ type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
   styleUrls: ['./drag-game-container.component.module.scss'],
   imports: [CdkDropList, CdkDrag],
 })
-export class DragGame {
+export class DragGame implements OnInit {
   imgDiff = input<Difficulty>();
   pieceDiff = input<Difficulty>();
 
   difficulties = {
     img: {
-      easy: ['./easy1.jpeg', './easy2.jpeg', './easy3.jpeg', './easy4.jpeg'],
-      normal: ['./normal1.jpeg', './normal2.jpeg', './normal3.jpeg', './normal4.jpeg'],
-      hard: ['./hard1.jpeg', './hard2.jpeg', './hard3.jpeg', './hard4.jpeg'],
-      extreme: ['./extreme1.jpeg', './extreme2.jpeg', './extreme3.jpeg', './extreme4.jpeg'],
+      easy: ['easy1.jpeg', 'easy2.jpeg', 'easy3.jpeg', 'easy4.jpeg'],
+      normal: ['normal1.jpeg', 'normal2.jpeg', 'normal3.jpeg', 'normal4.jpeg'],
+      hard: ['hard1.jpeg', 'hard2.jpeg', 'hard3.jpeg', 'hard4.jpeg'],
+      extreme: ['extreme1.jpeg', 'extreme2.jpeg', 'extreme3.jpeg', 'extreme4.jpeg'],
     },
     piece: {
       easy: [2, 3, 4],
@@ -40,29 +40,69 @@ export class DragGame {
       extreme: [8, 9, 10],
     },
   };
-  rows = 6;
-  columns = 4;
-  imgWidth = (this.rows + 1) * 80;
-  imgHeight = (this.columns + 1) * 80;
 
-  pieces = this.shuffle(
-    Array.from({ length: this.rows }, (_, rowIndex) =>
-      Array.from({ length: this.columns }, (_, colIndex) => ({
-        item: `${colIndex + 1}/${rowIndex + 1}`,
-        x: (colIndex + 1) * -80,
-        y: (rowIndex + 1) * -80,
-        img: 'test.jpeg',
-      }))
-    ).flat()
-  );
+  rows = 0;
+  columns = 0;
 
-  field = Array(this.rows * this.columns).fill(null);
+  imgWidth = 0;
+  imgHeight = 0;
 
-  gridIds = this.field.map((_, i) => `slot${i}`);
+  pieces: Piece[] | [] = [];
+  field: null[] = [];
 
-  gridData: Record<string, Piece[]> = Object.fromEntries(
-    this.field.map((_, i) => [`slot${i}`, []])
-  );
+  gridIds: string[] = [];
+  gridData: Record<string, Piece[]> = {};
+
+  randomImg: string = '';
+
+  ngOnInit() {
+    this.configureGame();
+  }
+
+  configureGame() {
+    const imgs = this.difficulties.img[this.imgDiff()!];
+    this.randomImg = `images/puzzle/${imgs[Math.floor(Math.random() * imgs.length)]}`;
+    const pieces = this.difficulties.piece[this.pieceDiff()!];
+
+    this.rows = pieces[Math.floor(Math.random() * pieces.length)];
+    this.columns = pieces[Math.floor(Math.random() * pieces.length)];
+
+    this.imgWidth = this.columns * 80;
+    this.imgHeight = this.rows * 80;
+
+    this.pieces = this.shuffle(
+      Array.from({ length: this.rows }, (_, rowIndex) =>
+        Array.from({ length: this.columns }, (_, colIndex) => ({
+          item: `${colIndex + 1}/${rowIndex + 1}`,
+          x: colIndex * -80,
+          y: rowIndex * -80,
+          img: this.randomImg,
+        }))
+      ).flat()
+    );
+
+    this.field = new Array(this.rows * this.columns).fill(null);
+
+    this.gridIds = Array.from({ length: this.rows }, (_, rowIndex) =>
+      Array.from({ length: this.columns }, (_, colIndex) => `${colIndex + 1}/${rowIndex + 1}`)
+    ).flat();
+
+    this.gridData = Object.fromEntries(this.gridIds.map((id) => [id, []]));
+  }
+
+  resetGame() {
+    this.rows = 0;
+    this.columns = 0;
+
+    this.imgWidth = 0;
+    this.imgHeight = 0;
+
+    this.pieces = [];
+    this.field = [];
+
+    this.gridIds = [];
+    this.gridData = {};
+  }
 
   get connectedLists() {
     return ['puzzleBox', ...this.gridIds];
@@ -81,6 +121,8 @@ export class DragGame {
       event.previousIndex,
       event.currentIndex
     );
+
+    this.checkIfWon();
   }
 
   canEnter = (drag: CdkDrag<Piece>, drop: CdkDropList<Piece[]>) => {
@@ -97,5 +139,16 @@ export class DragGame {
       [result[i], result[j]] = [result[j], result[i]];
     }
     return result;
+  }
+
+  checkIfWon() {
+    const allSlotsFilled = Object.values(this.gridData).every((slot) => slot.length === 1);
+    if (!allSlotsFilled) return;
+
+    const hasWon = Object.entries(this.gridData).every(([id, pieces]) => pieces[0]?.item === id);
+
+    if (hasWon) {
+      alert('🎉 YOU WON!');
+    }
   }
 }
