@@ -1,0 +1,11 @@
+<div class="animation-page">
+  <h1>Animations</h1>
+  <div #gameField class="game-field" (mousemove)="onMouseMove($event)">
+    <div
+      class="player"
+      [style.left.px]="playerPosX() - playerSize / 2"
+      [style.top.px]="playerPosY() - playerSize / 2"
+      [style.width.px]="playerSize"
+    ></div>
+  </div>
+</div>
