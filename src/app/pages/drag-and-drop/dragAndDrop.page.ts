@@ -12,7 +12,7 @@ type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
 export class DragAndDropPage {
   settingsState = true;
 
-  difficultyForm = new FormGroup({
+  dragAndDropForm = new FormGroup({
     image: new FormControl<Difficulty>('normal'),
     pieces: new FormControl<Difficulty>('normal'),
   });

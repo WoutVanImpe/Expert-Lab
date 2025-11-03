@@ -1,7 +1,7 @@
 <div class="dragpage">
   <h1>Drag & Drop</h1>
   @if (settingsState) {
-  <form class="settings-container" [formGroup]="difficultyForm">
+  <form class="settings-container" [formGroup]="dragAndDropForm">
     <label
       >Image difficulty:
       <select name="img-settings" id="img-settings" formControlName="image">
@@ -25,8 +25,8 @@
   } @else {
   <div class="game-container">
     <drag-game-container
-      [imgDiff]="difficultyForm.value.image!"
-      [pieceDiff]="difficultyForm.value.pieces!"
+      [imgDiff]="dragAndDropForm.value.image!"
+      [pieceDiff]="dragAndDropForm.value.pieces!"
     />
     <button (click)="stopGame()">Stop Game</button>
   </div>

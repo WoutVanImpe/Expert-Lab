@@ -1,46 +1,27 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
-import { Bomb } from './components/bomb/bomb.component';
+import { AfterViewInit, Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Gamefield } from './components/gamefield/gamefield.component';
+
+type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
 
 @Component({
   selector: 'animation-page',
   templateUrl: './animation.page.html',
   styleUrls: ['animation.page.module.scss'],
-  imports: [Bomb],
+  imports: [Gamefield, ReactiveFormsModule],
 })
 export class AnimationPage {
-  @ViewChild('gameField') gameFieldRef!: ElementRef<HTMLDivElement>;
+  pageState = signal<'settings' | 'game'>('settings');
 
-  playerPosX = signal<number>(0);
-  playerPosY = signal<number>(0);
-  playerSize = 20;
+  animationForm = new FormGroup({
+    diff: new FormControl<Difficulty>('normal'),
+  });
 
-  bombX = 500;
-  bombY = 500;
-  bombWidth = 10;
-  bombBlastRadius = 50;
-
-  onMouseMove(event: MouseEvent) {
-    if (!this.gameFieldRef) return;
-    const rect = this.gameFieldRef.nativeElement.getBoundingClientRect();
-
-    const mouseX = Math.floor(event.clientX - rect.left);
-    const mouseY = Math.floor(event.clientY - rect.top);
-
-    this.playerPosX.set(
-      Math.max(Math.min(mouseX, rect.width - this.playerSize / 2), 0 + this.playerSize / 2)
-    );
-    this.playerPosY.set(
-      Math.max(Math.min(mouseY, rect.height - this.playerSize / 2), 0 + this.playerSize / 2)
-    );
-    this.checkDeath(this.bombX, this.bombY, this.bombBlastRadius);
+  startGame() {
+    this.pageState.set('game');
   }
 
-  checkDeath(bombX: number, bombY: number, bombBlastRadius: number) {
-    const distance = Math.sqrt(
-      Math.pow(this.playerPosX() - bombX, 2) + Math.pow(this.playerPosY() - bombY, 2)
-    );
-    if (distance < bombBlastRadius) {
-      alert('BOOM!');
-    }
+  resetGame() {
+    this.pageState.set('settings');
   }
 }

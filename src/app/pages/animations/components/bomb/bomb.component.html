@@ -1,7 +1,13 @@
 <div
   class="bomb"
-  [style.outline-offset.px]="bombBlastRadius()"
   [style.left.px]="bombPosX()"
   [style.top.px]="bombPosY()"
   [style.width.px]="bombWidth()"
-></div>
+  [style.height.px]="bombWidth()"
+>
+  <div
+    class="blast"
+    [style.width.px]="bombBlastRadius() * 2"
+    [style.height.px]="bombBlastRadius() * 2"
+  ></div>
+</div>

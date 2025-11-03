@@ -1,17 +1,20 @@
 <div class="animation-page">
   <h1>Animations</h1>
-  <div #gameField class="game-field" (mousemove)="onMouseMove($event)">
-    <div
-      class="player"
-      [style.left.px]="playerPosX() - playerSize / 2"
-      [style.top.px]="playerPosY() - playerSize / 2"
-      [style.width.px]="playerSize"
-    ></div>
-    <bomb
-      [bombWidth]="bombWidth"
-      [bombPosX]="bombX"
-      [bombPosY]="bombY"
-      [bombBlastRadius]="bombBlastRadius"
-    />
-  </div>
+  @if(pageState() === "game"){
+  <gamefield [difficulty]="animationForm.value.diff!" (resetGameEvent)="resetGame()"></gamefield>
+  } @if(pageState() === "settings"){
+  <form class="settings-container" [formGroup]="animationForm">
+    <label
+      >Game difficulty:
+      <select name="difficulty-settings" id="difficulty-settings" formControlName="diff">
+        <option value="easy">Easy</option>
+        <option value="normal" selected>Normal</option>
+        <option value="hard">Hard</option>
+        <option value="extreme">Extreme</option>
+      </select></label
+    >
+    <button (click)="startGame()">Start Game</button>
+  </form>
+
+  }
 </div>

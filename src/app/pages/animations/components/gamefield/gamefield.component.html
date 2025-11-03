@@ -1,0 +1,23 @@
+@if (playing){
+<div #gameField class="game-field" (mousemove)="onMouseMove($event)">
+  <div
+    class="player"
+    [style.left.px]="playerPosX() - playerSize / 2"
+    [style.top.px]="playerPosY() - playerSize / 2"
+    [style.width.px]="playerSize"
+  ></div>
+  @for (bomb of bombList; track bomb.id){
+  <bomb
+    [bombWidth]="bomb.width"
+    [bombPosX]="bomb.x"
+    [bombPosY]="bomb.y"
+    [bombBlastRadius]="bomb.blastRadius"
+  />
+  }
+</div>
+} @else {
+<div class="game-over">
+  <h1>GAME OVER</h1>
+  <button (click)="resetGame()">Restart</button>
+</div>
+}
