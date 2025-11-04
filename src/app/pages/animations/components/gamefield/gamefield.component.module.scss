@@ -6,6 +6,8 @@
 
   position: relative;
 
+  overflow: hidden;
+
   .player {
     position: absolute;
 
@@ -13,6 +15,8 @@
     transform-origin: center;
     aspect-ratio: 1/1;
     background: green;
+
+    z-index: 9;
   }
 
   &:hover {

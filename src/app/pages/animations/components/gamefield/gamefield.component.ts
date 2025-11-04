@@ -18,6 +18,12 @@ interface BombType {
   width: number;
   blastRadius: number;
 }
+type BombExplosionVars = {
+  id: number;
+  x: number;
+  y: number;
+  blastRadius: number;
+};
 type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
 
 @Component({
@@ -33,6 +39,8 @@ export class Gamefield implements AfterViewInit {
   difficulty = input.required<Difficulty>();
   resetGameEvent = output<void>();
   playing: boolean = true;
+
+  score: number = 0;
 
   playerPosX = signal<number>(0);
   playerPosY = signal<number>(0);
@@ -64,7 +72,7 @@ export class Gamefield implements AfterViewInit {
     } else if (this.difficulty() === 'hard') {
       this.spawnRate = 400;
     } else {
-      this.spawnRate = 200;
+      this.spawnRate = 50;
     }
 
     this.startGame();
@@ -85,18 +93,23 @@ export class Gamefield implements AfterViewInit {
     this.playerPosY.set(
       Math.max(Math.min(mouseY, rect.height - this.playerSize / 2), 0 + this.playerSize / 2)
     );
-
-    this.bombList.forEach((bomb) => {
-      this.checkDeath(bomb.x, bomb.y, bomb.blastRadius);
-    });
   }
 
   async startGame() {
     await this.sleep(2000);
     this.spawnBomb();
+    this.updateScore();
+  }
+
+  async updateScore() {
+    if (!this.playing) return;
+    await this.sleep(1000);
+    this.score = this.score + 1;
+    this.updateScore();
   }
 
   async spawnBomb() {
+    if (!this.playing) return;
     this.createBomb();
     this.cdRef.detectChanges();
     await this.sleep(this.spawnRate);
@@ -113,19 +126,26 @@ export class Gamefield implements AfterViewInit {
       x: Math.floor(Math.random() * this.playfield.width),
       y: Math.floor(Math.random() * this.playfield.height),
       width: 10,
-      blastRadius: Math.floor(Math.random() * 50) + 20,
+      blastRadius: Math.floor(Math.random() * 50) + 50,
     };
     this.bombId.update((v) => v + 1);
     this.bombList.push(bomb);
   }
 
-  checkDeath(bombX: number, bombY: number, bombBlastRadius: number) {
+  async checkDeath(bomb: BombExplosionVars) {
     const distance =
-      Math.sqrt(Math.pow(this.playerPosX() - bombX, 2) + Math.pow(this.playerPosY() - bombY, 2)) -
+      Math.sqrt(Math.pow(this.playerPosX() - bomb.x, 2) + Math.pow(this.playerPosY() - bomb.y, 2)) -
       this.playerSize / 2;
-    if (distance < bombBlastRadius) {
-      // this.playing = false;
+    if (distance < bomb.blastRadius) {
+      this.playing = false;
     }
+    await this.sleep(500);
+    this.removeBomb(bomb.id);
+  }
+
+  removeBomb(id: number) {
+    this.bombList = this.bombList.filter((bomb) => bomb.id !== id);
+    this.cdRef.detectChanges();
   }
 
   resetGame() {

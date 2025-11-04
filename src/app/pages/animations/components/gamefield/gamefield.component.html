@@ -8,16 +8,19 @@
   ></div>
   @for (bomb of bombList; track bomb.id){
   <bomb
+    [bombId]="bomb.id"
     [bombWidth]="bomb.width"
     [bombPosX]="bomb.x"
     [bombPosY]="bomb.y"
     [bombBlastRadius]="bomb.blastRadius"
+    (animationEndEvent)="checkDeath($event)"
   />
   }
 </div>
 } @else {
 <div class="game-over">
   <h1>GAME OVER</h1>
+  <p>score: {{ score }}</p>
   <button (click)="resetGame()">Restart</button>
 </div>
 }
