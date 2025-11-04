@@ -5,6 +5,8 @@
   [style.width.px]="bombWidth()"
   [style.height.px]="bombWidth()"
 >
+  @if(loading){
+  <div class="dot" [style.width.px]="bombWidth()" [style.height.px]="bombWidth()"></div>
   <div
     class="blast"
     [style.width.px]="bombBlastRadius() * 2"
@@ -14,6 +16,41 @@
     class="loader"
     [style.width.px]="bombBlastRadius() * 2"
     [style.height.px]="bombBlastRadius() * 2"
-    (animationend)="onAnimationEnd()"
+    (animationend)="loadingDoneEvent(); startExplosion()"
   ></div>
+  } @else{
+  <div
+    class="shockwave"
+    [style.width.px]="bombBlastRadius() * 2"
+    [style.height.px]="bombBlastRadius() * 2"
+  ></div>
+  <div
+    class="explosion"
+    [style.width.px]="bombBlastRadius() * 2"
+    [style.height.px]="bombBlastRadius() * 2"
+    (animationend)="onAnimationEnd()"
+  >
+    <img
+      class="explosion__1"
+      src="images/animation/exp-1.svg"
+      [style.width.px]="bombBlastRadius() * 2"
+      [style.--base-rotate.deg]="explosion1rotate"
+      alt="Explosion"
+    />
+    <img
+      class="explosion__2"
+      src="images/animation/exp-2.svg"
+      [style.width.px]="bombBlastRadius() * 2"
+      [style.--base-rotate.deg]="explosion2rotate"
+      alt="Explosion"
+    />
+    <img
+      class="explosion__3"
+      src="images/animation/exp-3.svg"
+      [style.width.px]="bombBlastRadius() * 2"
+      [style.--base-rotate.deg]="explosion3rotate"
+      alt="Explosion"
+    />
+  </div>
+  }
 </div>

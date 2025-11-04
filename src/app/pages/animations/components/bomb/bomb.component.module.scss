@@ -1,17 +1,37 @@
+@use 'sass:math';
+
+$bomb-color: #607a4a;
+$bomb-core-color: #7c9b61;
+$blast-border-color: #2a442e;
+$bomb-animation-duration: 4s;
+
+$shockwave-color: #839997;
+$shockwave-duration: 3s;
+
+$explosion-duration: 3.5s;
+$explosion-shake-duration: 0.8s;
+
 .bomb {
   position: absolute;
   transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: #7c0a02;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: $bomb-color;
+}
+
 .blast {
   position: absolute;
-  border: 2px solid #e25822;
-  opacity: 0.2;
+  border: 2px solid $blast-border-color;
+  opacity: 0.4;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -20,13 +40,13 @@
 
 .loader {
   position: absolute;
-  background: #b22222;
+  background: $bomb-core-color;
   opacity: 0.8;
   border-radius: 50%;
   transform-origin: center;
 
   animation-name: radiusGrowth;
-  animation-duration: 4s;
+  animation-duration: $bomb-animation-duration;
 }
 
 @keyframes radiusGrowth {
@@ -37,5 +57,112 @@
   to {
     scale: 1;
     opacity: 0.8;
+  }
+}
+
+.shockwave {
+  position: absolute;
+  border: solid 2px $shockwave-color;
+  scale: 1.6;
+  opacity: 0;
+  border-radius: 50%;
+  transform-origin: center;
+
+  filter: blur(2px);
+  animation-name: shockwave;
+  animation-duration: $shockwave-duration;
+}
+
+@keyframes shockwave {
+  from {
+    opacity: 1;
+    scale: 0.5;
+  }
+  to {
+    opacity: 0;
+    scale: 1.6;
+  }
+}
+
+.explosion {
+  position: relative;
+  aspect-ratio: 1/1;
+  animation-name: explosion;
+  animation-duration: $explosion-duration;
+
+  opacity: 0;
+
+  > * {
+    position: absolute;
+
+    animation-duration: $explosion-shake-duration;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-timing-function: linear;
+
+    aspect-ratio: 1/1;
+
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &__1 {
+    z-index: 3;
+    animation-name: shake1;
+  }
+
+  &__2 {
+    z-index: 2;
+    animation-name: shake2;
+  }
+
+  &__3 {
+    z-index: 1;
+    animation-name: shake1;
+  }
+
+  @keyframes explosion {
+    0% {
+      scale: 0.6;
+      opacity: 0.5;
+    }
+    3% {
+      scale: 1.2;
+    }
+    5% {
+      scale: 1;
+      opacity: 1;
+    }
+    80% {
+      scale: 1;
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes shake1 {
+    0% {
+      transform: rotate(var(--base-rotate));
+    }
+    50% {
+      transform: (rotate(calc(var(--base-rotate) + 10deg)));
+    }
+    100% {
+      transform: rotate(var(--base-rotate));
+    }
+  }
+  @keyframes shake2 {
+    0% {
+      transform: rotate(var(--base-rotate));
+    }
+    50% {
+      transform: (rotate(calc(var(--base-rotate) - 10deg)));
+    }
+    100% {
+      transform: rotate(var(--base-rotate));
+    }
   }
 }

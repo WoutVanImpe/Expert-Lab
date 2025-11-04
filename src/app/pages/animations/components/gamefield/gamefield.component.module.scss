@@ -1,3 +1,5 @@
+$player-color: #1ba1d5;
+
 .game-field {
   border: black dotted 2px;
   border-radius: 10px;
@@ -14,7 +16,7 @@
     border-radius: 10px;
     transform-origin: center;
     aspect-ratio: 1/1;
-    background: green;
+    background: $player-color;
 
     z-index: 9;
   }
@@ -23,3 +25,5 @@
     cursor: none;
   }
 }
+
+

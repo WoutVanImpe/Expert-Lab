@@ -13,7 +13,8 @@
     [bombPosX]="bomb.x"
     [bombPosY]="bomb.y"
     [bombBlastRadius]="bomb.blastRadius"
-    (animationEndEvent)="checkDeath($event)"
+    (explosionStartEvent)="onExplosionStart($event)"
+    (explosionEndEvent)="onExplosionEnd($event)"
   />
   }
 </div>

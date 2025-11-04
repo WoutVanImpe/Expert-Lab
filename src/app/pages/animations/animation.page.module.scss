@@ -4,3 +4,27 @@
   flex-direction: column;
   align-items: center;
 }
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+
+  button {
+    width: 100px;
+
+    border: green solid 3px;
+    background: rgb(28, 156, 28);
+    color: white;
+    border-radius: 5px;
+
+    padding: 5px 10px;
+
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(104, 199, 104);
+    }
+  }
+}

@@ -18,14 +18,35 @@ export class Bomb {
   bombPosY = input.required<number>();
   bombWidth = input.required<number>();
   bombBlastRadius = input.required<number>();
-  animationEndEvent = output<BombExplosionVars>();
 
-  onAnimationEnd() {
-    this.animationEndEvent.emit({
+  explosionStartEvent = output<BombExplosionVars>();
+  explosionEndEvent = output<BombExplosionVars>();
+
+  explosion1rotate = Math.floor(Math.random() * 360);
+  explosion2rotate = Math.floor(Math.random() * 360);
+  explosion3rotate = Math.floor(Math.random() * 360);
+
+  loading: boolean = true;
+
+  startExplosion() {
+    this.explosionStartEvent.emit({
       id: this.bombId(),
       x: this.bombPosX(),
       y: this.bombPosY(),
       blastRadius: this.bombBlastRadius(),
     });
+  }
+
+  onAnimationEnd() {
+    this.explosionEndEvent.emit({
+      id: this.bombId(),
+      x: this.bombPosX(),
+      y: this.bombPosY(),
+      blastRadius: this.bombBlastRadius(),
+    });
+  }
+
+  loadingDoneEvent() {
+    this.loading = false;
   }
 }

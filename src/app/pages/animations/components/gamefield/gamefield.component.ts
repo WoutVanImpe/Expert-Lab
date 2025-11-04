@@ -56,7 +56,9 @@ export class Gamefield implements AfterViewInit {
   };
 
   bombList: BombType[] = [];
+  explodingBombs: BombExplosionVars[] = [];
   bombId = signal<number>(1);
+  bombMinRadius: number = 0;
   spawnRate = 0;
 
   ngAfterViewInit() {
@@ -64,6 +66,7 @@ export class Gamefield implements AfterViewInit {
     this.playfield.rect = rect;
     this.playfield.width = rect.width;
     this.playfield.height = rect.height;
+    this.bombMinRadius = (rect.width + rect.height) / 2 / 10;
 
     if (this.difficulty() === 'easy') {
       this.spawnRate = 1000;
@@ -72,7 +75,7 @@ export class Gamefield implements AfterViewInit {
     } else if (this.difficulty() === 'hard') {
       this.spawnRate = 400;
     } else {
-      this.spawnRate = 50;
+      this.spawnRate = 200;
     }
 
     this.startGame();
@@ -97,6 +100,7 @@ export class Gamefield implements AfterViewInit {
 
   async startGame() {
     await this.sleep(2000);
+    this.checkDeath();
     this.spawnBomb();
     this.updateScore();
   }
@@ -126,21 +130,39 @@ export class Gamefield implements AfterViewInit {
       x: Math.floor(Math.random() * this.playfield.width),
       y: Math.floor(Math.random() * this.playfield.height),
       width: 10,
-      blastRadius: Math.floor(Math.random() * 50) + 50,
+      blastRadius: Math.floor(Math.random() * 50) + this.bombMinRadius,
     };
     this.bombId.update((v) => v + 1);
     this.bombList.push(bomb);
   }
 
-  async checkDeath(bomb: BombExplosionVars) {
-    const distance =
-      Math.sqrt(Math.pow(this.playerPosX() - bomb.x, 2) + Math.pow(this.playerPosY() - bomb.y, 2)) -
-      this.playerSize / 2;
-    if (distance < bomb.blastRadius) {
-      this.playing = false;
-    }
-    await this.sleep(500);
+  onExplosionStart(bomb: BombExplosionVars) {
+    this.explodingBombs.push(bomb);
+  }
+
+  onExplosionEnd(bomb: BombExplosionVars) {
+    this.explodingBombs = this.explodingBombs.filter((b) => b.id !== bomb.id);
     this.removeBomb(bomb.id);
+  }
+
+  checkDeath() {
+    console.log(this.explodingBombs);
+    if (!this.playing) return;
+
+    for (const bomb of this.explodingBombs) {
+      const distance =
+        Math.sqrt(
+          Math.pow(this.playerPosX() - bomb.x, 2) + Math.pow(this.playerPosY() - bomb.y, 2)
+        ) -
+        this.playerSize / 2;
+
+      if (distance < bomb.blastRadius) {
+        this.playing = false;
+        return;
+      }
+    }
+
+    requestAnimationFrame(() => this.checkDeath());
   }
 
   removeBomb(id: number) {
