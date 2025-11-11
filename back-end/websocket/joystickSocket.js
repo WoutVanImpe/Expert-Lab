@@ -1,8 +1,8 @@
 const WebSocket = require("ws");
 const server = new WebSocket.Server({ port: "8080" });
 
-let joyX = 0;
-let joyY = 0;
+let joyX = null;
+let joyY = null;
 
 server.on("connection", (socket) => {
 	console.log("New client connected");
