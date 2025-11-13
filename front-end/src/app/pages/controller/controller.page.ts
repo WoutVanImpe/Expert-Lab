@@ -47,8 +47,6 @@ export class ControllerPage implements OnInit, OnDestroy {
     }
     this.cdRef.detectChanges();
 
-    console.log('x' + this.carX + ' - y ' + this.carY);
-
     requestAnimationFrame(() => this.driveCar());
   }
 }
