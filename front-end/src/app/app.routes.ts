@@ -3,6 +3,7 @@ import { HomePage } from './pages/home/home.page';
 import { TodoPage } from './pages/todo/todo';
 import { DragAndDropPage } from './pages/drag-and-drop/dragAndDrop.page';
 import { AnimationPage } from './pages/animations/animation.page';
+import { ControllerPage } from './pages/controller/controller.page';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'animation',
     component: AnimationPage,
+  },
+  {
+    path: 'controller',
+    component: ControllerPage,
   },
 ];

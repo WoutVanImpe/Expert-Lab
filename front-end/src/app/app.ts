@@ -6,8 +6,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   template: `<div class="app">
     <nav>
       <a routerLink="">Home</a> | <a routerLink="/todo">Todo</a> |
-      <a routerLink="/drag-and-drop">Drag & Drop</a> |
-      <a routerLink="/animation">Animations</a>
+      <a routerLink="/drag-and-drop">Drag & Drop</a> | <a routerLink="/animation">Animations</a> |
+      <a routerLink="/controller">Controller</a>
     </nav>
     <div class="router-container">
       <router-outlet />

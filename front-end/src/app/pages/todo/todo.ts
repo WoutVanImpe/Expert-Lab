@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { TodoItem } from './components/todo-item';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TodosService } from '../../services/todos.service';
+import { TodosService } from '../../services/todo/todos.service';
 
 interface Todo {
   id: number;
