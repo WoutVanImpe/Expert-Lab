@@ -1,4 +1,8 @@
 <div class="controller-page">
   <h1>Controller</h1>
-  <car [xPos]="carX" [yPos]="carY" />
+  <car class="car" [xPos]="carX" [yPos]="carY" [rot]="carRotate" />
+  @for(dirt of dirtInstances; track dirt.id){
+  <div class="dirt" [style.left.px]="dirt.left.x" [style.top.px]="dirt.left.y"></div>
+  <div class="dirt" [style.left.px]="dirt.right.x" [style.top.px]="dirt.right.y"></div>
+  }
 </div>

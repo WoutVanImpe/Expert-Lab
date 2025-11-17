@@ -1,5 +1,40 @@
-.car {
+.car-container {
   position: absolute;
+  .car {
+    position: relative;
 
-  width: 60px;
+    width: 60px;
+    height: 120px;
+
+    transform-origin: left;
+
+    img {
+      position: absolute;
+
+      width: 100%;
+
+      left: -30px;
+      top: -60px;
+
+      z-index: 4;
+    }
+
+    .dirt {
+      position: absolute;
+      top: 53px;
+
+      width: 10px;
+      height: 10px;
+
+      z-index: 1;
+    }
+
+    .left {
+      left: -18px;
+    }
+
+    .right {
+      left: 10px;
+    }
+  }
 }

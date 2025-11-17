@@ -1,3 +1,7 @@
-<div class="car" [style.top.px]="yPos()" [style.left.px]="xPos()">
-  <img src="images/controller/car.svg" alt="car" />
+<div class="car-container" [style.top.px]="yPos()" [style.left.px]="xPos()">
+  <div class="car" [style.rotate.deg]="rot()">
+    <img src="images/controller/car.svg" alt="car" />
+    <div class="dirt left"></div>
+    <div class="dirt right"></div>
+  </div>
 </div>

@@ -28,7 +28,7 @@ server.on("connection", (socket) => {
 			const data = JSON.parse(messageString);
 			console.log("Parsed Data:", data);
 
-			 if (data.user === "controller") {
+			if (data.user === "controller") {
 				joyX = data.x;
 				joyY = data.y;
 
@@ -41,7 +41,6 @@ server.on("connection", (socket) => {
 
 				socket.send(`Received data successfully: x = ${joyX} | y = ${joyY} `);
 			}
-			
 		} catch (error) {
 			console.error("Failed to parse JSON:", error);
 			console.log("Raw string was:", messageString);

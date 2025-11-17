@@ -1,5 +1,5 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; // AANGEPAST
-import { isPlatformBrowser } from '@angular/common'; // TOEGEVOEGD
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -10,7 +10,6 @@ export class WebsocketService {
   private websocket: WebSocket | undefined;
   private messages: Subject<any> = new Subject();
 
-  // Injecteer PLATFORM_ID
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.connect();
   }
@@ -29,7 +28,7 @@ export class WebsocketService {
       this.websocket = undefined;
     }
 
-    this.websocket = new WebSocket('ws://192.168.129.3:8080');
+    this.websocket = new WebSocket('ws://10.2.58.10:8080');
 
     this.websocket.onopen = () => {
       console.log('WebSocket connection established');
