@@ -23,6 +23,16 @@ type DirtVars = {
   };
 };
 
+interface DirtOffset {
+  l: { x: number; y: number };
+  r: { x: number; y: number };
+}
+const DATA_LEFT: DirtOffset = { l: { x: -10, y: 40 }, r: { x: -10, y: 70 } };
+const DATA_RIGHT: DirtOffset = { l: { x: -10, y: 40 }, r: { x: -10, y: 70 } };
+const DATA_UP: DirtOffset = { l: { x: -20, y: 60 }, r: { x: 10, y: 60 } };
+const DATA_DOWN: DirtOffset = { l: { x: -20, y: 60 }, r: { x: 10, y: 60 } };
+const DATA_NONE: DirtOffset = { l: { x: 0, y: 0 }, r: { x: 0, y: 0 } };
+
 @Component({
   selector: 'controller-page',
   templateUrl: './controller.page.html',
@@ -54,6 +64,15 @@ export class ControllerPage implements OnInit, OnDestroy {
     /* Y= 0 (Idx 2) */ [270, 270, this.KEEP_LAST_VALUE, 90, 90],
     /* Y= 1 (Idx 3) */ [248, 225, 180, 135, 113],
     /* Y= 2 (Idx 4) */ [225, 203, 180, 158, 135],
+  ];
+
+  private readonly dirtLUT: DirtOffset[][] = [
+    //       X=-2 (L)    X=-1 (L)    X=0 (C)     X=1 (R)     X=2 (R)
+    /* Y=-2 (Up) */ [DATA_UP, DATA_UP, DATA_UP, DATA_UP, DATA_UP],
+    /* Y=-1 (Up) */ [DATA_UP, DATA_UP, DATA_UP, DATA_UP, DATA_UP],
+    /* Y= 0 (C)  */ [DATA_LEFT, DATA_LEFT, DATA_NONE, DATA_RIGHT, DATA_RIGHT],
+    /* Y= 1 (Down) */ [DATA_DOWN, DATA_DOWN, DATA_DOWN, DATA_DOWN, DATA_DOWN],
+    /* Y= 2 (Down) */ [DATA_DOWN, DATA_DOWN, DATA_DOWN, DATA_DOWN, DATA_DOWN],
   ];
 
   constructor(private readonly websocketService: WebsocketService) {}
@@ -121,23 +140,33 @@ export class ControllerPage implements OnInit, OnDestroy {
   }
 
   spawnDirt() {
-    const leftTrack = this.calculateRotatedPosition(this.carX, this.carY, this.carRotate, -18, 7);
+    const xInput = this.joystickPosition.x === null ? 0 : Math.round(this.joystickPosition.x);
+    const yInput = this.joystickPosition.y === null ? 0 : Math.round(this.joystickPosition.y);
 
-    const rightTrack = this.calculateRotatedPosition(this.carX, this.carY, this.carRotate, 10, 7);
+    const offsetData = this.getOffsetsFromLUT(xInput, yInput);
+
+    if (offsetData === DATA_NONE) return;
 
     this.dirtInstances.push({
       id: this.dirtIdCounter++,
       left: {
-        x: leftTrack.x + (Math.random() * 4 - 2),
-        y: leftTrack.y + (Math.random() * 4 - 2),
+        x: this.carX + offsetData.l.x + (Math.random() * 4 - 2),
+        y: this.carY + offsetData.l.y + (Math.random() * 4 - 2),
       },
       right: {
-        x: rightTrack.x + (Math.random() * 4 - 2),
-        y: rightTrack.y + (Math.random() * 4 - 2),
+        x: this.carX + offsetData.r.x + (Math.random() * 4 - 2),
+        y: this.carY + offsetData.r.y + (Math.random() * 4 - 2),
       },
     });
 
     this.cleanUpDirtInstances();
+  }
+
+  getOffsetsFromLUT(x: number, y: number): DirtOffset {
+    const xIndex = Math.max(0, Math.min(4, x + 2));
+    const yIndex = Math.max(0, Math.min(4, y + 2));
+
+    return this.dirtLUT[yIndex][xIndex];
   }
 
   calculateRotatedPosition(

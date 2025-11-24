@@ -4,13 +4,9 @@
 
   position: relative;
 
-  .car {
-    z-index: 3;
-  }
-
   .dirt {
     position: absolute;
-    z-index: 2;
+    z-index: -1;
 
     width: 10px;
     height: 10px;

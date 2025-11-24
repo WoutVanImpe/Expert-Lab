@@ -1,8 +1,4 @@
-import {
-  Component,
-  input,
-} from '@angular/core';
-
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'car',
@@ -11,9 +7,7 @@ import {
   styleUrls: ['./car.component.module.scss'],
 })
 export class Car {
-
   xPos = input<number>();
   yPos = input<number>();
   rot = input<number>();
-  
 }
