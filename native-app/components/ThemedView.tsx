@@ -1,13 +1,28 @@
-import { View, Text, useColorScheme, type ViewProps } from "react-native";
+import { View, useColorScheme, type ViewProps } from "react-native";
 import React from "react";
 import { Colors } from "../constants/Colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const ThemedView = ({ style, children, ...props }: ViewProps) => {
+type ThemedViewProps = ViewProps & {
+	safe?: boolean;
+};
+
+const ThemedView = ({ style, children, safe = false, ...props }: ThemedViewProps) => {
 	const colorScheme = useColorScheme();
 	const theme = colorScheme != null ? Colors[colorScheme] : Colors.light;
 
+	if (!safe) {
+		return (
+			<View style={[{ backgroundColor: theme.background }, style]} {...props}>
+				{children}
+			</View>
+		);
+	}
+
+	const insets = useSafeAreaInsets();
+
 	return (
-		<View style={[{ backgroundColor: theme.background }, style]} {...props}>
+		<View style={[{ backgroundColor: theme.background, paddingTop: insets.top, paddingBottom: insets.bottom }, style]} {...props}>
 			{children}
 		</View>
 	);
