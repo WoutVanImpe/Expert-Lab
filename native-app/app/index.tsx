@@ -3,12 +3,20 @@ import React from "react";
 import ThemedView from "../components/ThemedView";
 import ThemedLink from "../components/ThemedLink";
 import ThemedText from "../components/ThemedText";
+import Spacer from "../components/Spacer";
 
 const Home = () => {
 	return (
 		<ThemedView style={styles.container}>
-			<ThemedText title style={styles.title}>Home</ThemedText>
-			<ThemedLink href="/about">About</ThemedLink>
+			<ThemedText title style={styles.title}>
+				Home
+			</ThemedText>
+			<Spacer />
+			<ThemedLink href="/login">Login page</ThemedLink>
+			<Spacer height={5} />
+			<ThemedLink href="/register">Register page</ThemedLink>
+			<Spacer height={5} />
+			<ThemedLink href="/profile">Profile page</ThemedLink>
 		</ThemedView>
 	);
 };
