@@ -12,7 +12,7 @@ const Register = () => {
 	};
 
 	return (
-		<ThemedView style={styles.container}>
+		<ThemedView safe style={styles.container}>
 			<ThemedText title style={styles.title}>
 				Register an account
 			</ThemedText>

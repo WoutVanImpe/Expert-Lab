@@ -12,7 +12,7 @@ const Login = () => {
 	};
 
 	return (
-		<ThemedView style={styles.container}>
+		<ThemedView safe style={styles.container}>
 			<ThemedText title style={styles.title}>
 				Login to an account
 			</ThemedText>

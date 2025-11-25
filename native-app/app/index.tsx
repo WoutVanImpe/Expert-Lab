@@ -7,7 +7,7 @@ import Spacer from "../components/Spacer";
 
 const Home = () => {
 	return (
-		<ThemedView style={styles.container}>
+		<ThemedView safe style={styles.container}>
 			<ThemedText title style={styles.title}>
 				Home
 			</ThemedText>

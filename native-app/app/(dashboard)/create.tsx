@@ -6,7 +6,7 @@ import Spacer from "../../components/Spacer";
 
 const Create = () => {
 	return (
-		<ThemedView style={styles.container}>
+		<ThemedView safe style={styles.container}>
 			<ThemedText title style={styles.title}>
 				Add a new book
 			</ThemedText>

@@ -6,7 +6,7 @@ import ThemedView from "../../components/ThemedView";
 
 const Profile = () => {
 	return (
-		<ThemedView style={styles.container}>
+		<ThemedView safe style={styles.container}>
 			<ThemedText title style={styles.title}>
 				Your email
 			</ThemedText>
