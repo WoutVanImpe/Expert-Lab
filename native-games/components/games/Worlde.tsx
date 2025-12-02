@@ -168,7 +168,7 @@ const Worlde = ({ setGameState }: GameProps) => {
 	};
 
 	const endGame = () => {
-		setTimeout(() => Alert.alert("Volgende keer beter!", `Het woord was "${secretWord.join("").toLowerCase().to}"`), 100);
+		setTimeout(() => Alert.alert("Volgende keer beter!", `Het woord was "${secretWord.join("").toLowerCase()}"`), 100);
 		setGameOver(true);
 	};
 
