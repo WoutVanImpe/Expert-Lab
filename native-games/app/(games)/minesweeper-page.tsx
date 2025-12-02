@@ -6,7 +6,7 @@ import Spacer from "../../components/Spacer";
 import ThemedButton from "../../components/ThemedButton";
 import MineSweeper from "../../components/games/MineSweeper";
 
-const Minesweeper = () => {
+const MinesweeperPage = () => {
 	const [gameState, setGameState] = useState<boolean>(false);
 
 	const startGame = () => {
@@ -30,7 +30,7 @@ const Minesweeper = () => {
 	);
 };
 
-export default Minesweeper;
+export default MinesweeperPage;
 
 const styles = StyleSheet.create({
 	container: {

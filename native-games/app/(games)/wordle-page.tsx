@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import ThemedView from "../../components/ThemedView";
-import MineSweeper from "../../components/games/MineSweeper";
 import Spacer from "../../components/Spacer";
 import ThemedButton from "../../components/ThemedButton";
 import ThemedText from "../../components/ThemedText";
+import Worlde from "../../components/games/Worlde";
 
-const Wordle = () => {
+const WordlePage = () => {
 	const [gameState, setGameState] = useState<boolean>(false);
 
 	const startGame = () => {
@@ -18,19 +18,22 @@ const Wordle = () => {
 			<ThemedText title style={styles.title}>
 				Worlde
 			</ThemedText>
-			<Spacer />
+
 			{!gameState ? (
-				<ThemedButton onPress={startGame}>
-					<Text style={{ color: "#f2f2f2" }}>Start Game</Text>
-				</ThemedButton>
+				<>
+					<Spacer />
+					<ThemedButton onPress={startGame}>
+						<Text style={{ color: "#f2f2f2" }}>Start Game</Text>
+					</ThemedButton>
+				</>
 			) : (
-				<MineSweeper />
+				<Worlde setGameState={setGameState} />
 			)}
 		</ThemedView>
 	);
 };
 
-export default Wordle;
+export default WordlePage;
 
 const styles = StyleSheet.create({
 	container: {
