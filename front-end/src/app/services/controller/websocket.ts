@@ -28,7 +28,7 @@ export class WebsocketService {
       this.websocket = undefined;
     }
 
-    this.websocket = new WebSocket('ws://10.2.58.31:8080');
+    this.websocket = new WebSocket('wss://10.2.58.31:8080');
 
     this.websocket.onopen = () => {
       console.log('WebSocket connection established');
