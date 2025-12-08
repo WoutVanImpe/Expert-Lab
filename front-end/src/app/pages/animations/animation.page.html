@@ -15,6 +15,11 @@
     >
     <button (click)="startGame()">Start Game</button>
   </form>
-
+  } @if(pageState() === "gameOver"){
+  <div class="game-over-container">
+    <h2>Game Over!</h2>
+    <p>Great job! You've completed the game.</p>
+    <button (click)="resetGame()">Play Again</button>
+  </div>
   }
 </div>

@@ -10,7 +10,8 @@ interface Todo {
 }
 @Component({
   selector: 'todopage',
-  template: `<h1>Todos</h1>
+  template: `<div class="todo-page">
+    <h1>Todos</h1>
     @if(!addingTodoState){
     <div class="todo-container">
       @for (todo of todos; track todo.id){
@@ -23,20 +24,21 @@ interface Todo {
       />
       }
     </div>
-    <p>{{ completedCount }} van de {{ todos.length }} todos gedaan!</p>
+    <p class="todo-counter">{{ completedCount }} van de {{ todos.length }} todos gedaan!</p>
     } @else {
     <form [formGroup]="todoForm" (ngSubmit)="handleSubmit()">
       <label>Title: <input id="title" formControlName="title" type="text" /></label>
-      <input id="submit" [disabled]="!todoForm.valid" type="submit" />
+      <input id="submit" [disabled]="!todoForm.valid" type="submit" value="verzenden" />
     </form>
     }
-    <button (click)="changeState()" class="stateButton">
+    <button (click)="changeState()" [class]="addingTodoState ? 'cancelButton' : 'stateButton'">
       @if (addingTodoState){
       <p>cancel</p>
       } @else {
       <p>add todo</p>
       }
-    </button>`,
+    </button>
+  </div>`,
   imports: [TodoItem, ReactiveFormsModule],
   styleUrls: ['./todo.module.scss'],
 })

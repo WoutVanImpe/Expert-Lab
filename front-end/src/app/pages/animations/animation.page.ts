@@ -11,7 +11,7 @@ type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme';
   imports: [Gamefield, ReactiveFormsModule],
 })
 export class AnimationPage {
-  pageState = signal<'settings' | 'game'>('settings');
+  pageState = signal<'settings' | 'game' | 'gameOver'>('settings');
 
   animationForm = new FormGroup({
     diff: new FormControl<Difficulty>('normal'),
@@ -19,6 +19,10 @@ export class AnimationPage {
 
   startGame() {
     this.pageState.set('game');
+  }
+
+  gameOver() {
+    this.pageState.set('gameOver');
   }
 
   resetGame() {

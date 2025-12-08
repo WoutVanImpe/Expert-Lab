@@ -1,31 +1,30 @@
 .car-container {
   position: absolute;
+  
   .car {
     position: relative;
-
     width: 60px;
     height: 120px;
-
     transform-origin: left;
+    filter: drop-shadow(var(--shadow-md));
 
     img {
       position: absolute;
-
       width: 100%;
-
       left: -30px;
       top: -60px;
-
       z-index: 4;
+      transition: transform var(--transition-fast);
     }
 
     .dirt {
       position: absolute;
       top: 53px;
-
       width: 10px;
       height: 10px;
-
+      background: var(--text-muted);
+      border-radius: 50%;
+      opacity: 0.6;
       z-index: 1;
     }
 

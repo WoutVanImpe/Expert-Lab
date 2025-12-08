@@ -1,19 +1,21 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   template: `<div class="app">
     <nav>
-      <a routerLink="">Home</a> | <a routerLink="/todo">Todo</a> |
-      <a routerLink="/drag-and-drop">Drag & Drop</a> | <a routerLink="/animation">Animations</a> |
-      <a routerLink="/controller">Controller</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> | 
+      <a routerLink="/todo" routerLinkActive="active">Todo</a> |
+      <a routerLink="/drag-and-drop" routerLinkActive="active">Drag & Drop</a> | 
+      <a routerLink="/animation" routerLinkActive="active">Animations</a> |
+      <a routerLink="/controller" routerLinkActive="active">Controller</a>
     </nav>
     <div class="router-container">
       <router-outlet />
     </div>
   </div>`,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   styleUrl: './app.scss',
 })
 export class App {

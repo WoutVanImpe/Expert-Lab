@@ -87,8 +87,8 @@ export class Gamefield implements AfterViewInit {
 
     const rect = this.playfield.rect;
 
-    const mouseX = Math.floor(event.clientX - rect.left);
-    const mouseY = Math.floor(event.clientY - rect.top);
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
 
     this.playerPosX.set(
       Math.max(Math.min(mouseX, rect.width - this.playerSize / 2), 0 + this.playerSize / 2)
@@ -158,11 +158,12 @@ export class Gamefield implements AfterViewInit {
 
       if (distance < bomb.blastRadius) {
         this.playing = false;
+        this.resetGameEvent.emit();
         return;
       }
-    }
 
-    requestAnimationFrame(() => this.checkDeath());
+      setTimeout(() => this.checkDeath(), 0);
+    }
   }
 
   removeBomb(id: number) {

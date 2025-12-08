@@ -2,10 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--spacing-lg);
 
   &__preview {
     scale: 0.6;
     width: min-content;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
 
     img {
       object-fit: cover;
@@ -14,19 +18,25 @@
 
   &__play-field {
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    background: #f5f5f5;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 900px;
 
     .puzzle-box {
-      background: #dbeafe;
-      border: 2px solid #3b82f6;
-      border-radius: 8px;
-      padding: 10px;
+      background: rgb(219 234 254 / 0.5);
+      border: 2px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: var(--spacing-sm);
       overflow-y: auto;
+      max-height: 400px;
+      box-shadow: var(--shadow-sm);
 
       > div {
         width: 80px;
@@ -35,10 +45,11 @@
     }
 
     .puzzle-playground {
-      background: #fef9c3;
-      border: 2px solid #eab308;
-      border-radius: 8px;
-      padding: 10px;
+      background: rgb(254 249 195 / 0.5);
+      border: 2px solid var(--accent-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      box-shadow: var(--shadow-sm);
 
       .grid {
         display: grid;
@@ -46,12 +57,19 @@
         height: 100%;
 
         .grid__item {
-          border: 1px solid #333;
-          background: #fff;
+          border: 1px solid var(--border);
+          background: var(--background);
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          border-radius: var(--radius-sm);
+          transition: all var(--transition-fast);
+
+          &:hover {
+            background: var(--surface-hover);
+            border-color: var(--primary-color);
+          }
         }
       }
     }
@@ -59,13 +77,26 @@
     .puzzle-piece {
       width: 80px;
       aspect-ratio: 1 / 1;
-      background-color: #60a5fa;
-      border: 1px solid #1e3a8a;
+      background-color: var(--primary-color);
+      border: 1px solid var(--primary-hover);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      font-weight: 600;
       color: white;
+      border-radius: var(--radius-sm);
+      cursor: grab;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow-md);
+      }
+
+      &:active {
+        cursor: grabbing;
+      }
 
       overflow: hidden;
       position: relative;
