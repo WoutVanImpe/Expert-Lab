@@ -1,7 +1,19 @@
 <div class="carousel-container">
   <button (click)="previous()">{{ buttonContent[0] }}</button>
-  <carousel-item [title]="gameList()![0].title" [image]="gameList()![0].image" />
-  <carousel-item [title]="gameList()![1].title" [image]="gameList()![1].image" />
-  <carousel-item [title]="gameList()![2].title" [image]="gameList()![2].image" />
+  <carousel-item 
+    [title]="gameList()![0].title" 
+    [image]="gameList()![0].image" 
+    (click)="navigateToPage(gameList()![0].route)"
+  />
+  <carousel-item 
+    [title]="gameList()![1].title" 
+    [image]="gameList()![1].image" 
+    (click)="navigateToPage(gameList()![1].route)"
+  />
+  <carousel-item 
+    [title]="gameList()![2].title" 
+    [image]="gameList()![2].image" 
+    (click)="navigateToPage(gameList()![2].route)"
+  />
   <button (click)="next()">{{ buttonContent[1] }}</button>
 </div>

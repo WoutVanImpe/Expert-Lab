@@ -6,6 +6,7 @@ import { List } from './components/list/list.component';
   selector: 'homepage',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.module.scss'],
+  standalone: true,
   imports: [Carousel, List],
 })
 export class HomePage {
@@ -14,45 +15,31 @@ export class HomePage {
   mockData = [
     {
       id: 1,
-      title: 'Mountain Escape',
-      image: 'images/test.jpeg',
-      description: 'A peaceful getaway in the snowy mountains.',
+      title: 'Todo List',
+      image: 'images/todo.jpg',
+      description: 'Manage your daily tasks with our interactive todo application.',
+      route: '/todo',
     },
     {
       id: 2,
-      title: 'Ocean Breeze',
-      image: 'images/test.jpeg',
-      description: 'Feel the refreshing air of the seaside cliffs.',
+      title: 'Drag & Drop',
+      image: 'images/drag.jpg',
+      description: 'Challenge yourself with our fun drag and drop puzzle game.',
+      route: '/drag-and-drop',
     },
     {
       id: 3,
-      title: 'City Lights',
-      image: 'images/test.jpeg',
-      description: 'The vibrant nightlife and glowing skyline await you.',
+      title: 'Animations',
+      image: 'images/animation.jpg',
+      description: 'Test your reflexes in our exciting animation game.',
+      route: '/animation',
     },
     {
       id: 4,
-      title: 'Forest Trail',
-      image: 'images/test.jpeg',
-      description: 'Wander through tall trees and discover hidden paths.',
-    },
-    {
-      id: 5,
-      title: 'Golden Desert',
-      image: 'images/test.jpeg',
-      description: 'Experience the calm of endless golden dunes.',
-    },
-    {
-      id: 6,
-      title: 'Winter Cabin',
-      image: 'images/test.jpeg',
-      description: 'A cozy cabin with a warm fireplace and snow outside.',
-    },
-    {
-      id: 7,
-      title: 'Tropical Paradise',
-      image: 'images/test.jpeg',
-      description: 'Palm trees, blue waters, and endless sunshine.',
+      title: 'Controller',
+      image: 'images/controller.jpg',
+      description: 'Take control with our interactive controller game.',
+      route: '/controller',
     },
   ];
 }
