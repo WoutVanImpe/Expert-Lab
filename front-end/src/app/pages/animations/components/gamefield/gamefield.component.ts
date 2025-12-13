@@ -158,12 +158,10 @@ export class Gamefield implements AfterViewInit {
 
       if (distance < bomb.blastRadius) {
         this.playing = false;
-        this.resetGameEvent.emit();
         return;
       }
-
-      setTimeout(() => this.checkDeath(), 0);
     }
+    setTimeout(() => this.checkDeath(), 0);
   }
 
   removeBomb(id: number) {
